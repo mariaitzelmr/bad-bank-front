@@ -1,0 +1,39 @@
+.nav-link {
+    text-decoration: none;
+    color: #393737;
+    font-weight: normal;
+    background-color: white;
+}
+
+.nav-link:hover {
+    background-color: pink;
+    color: black;
+}
+
+.nav-link.active {
+    text-decoration: underline;
+    color: black;
+    font-weight: bold;
+}
+
+.validation-error {
+    margin-left: 1rem;
+    color: rgb(200, 20, 20, 0.5);
+    font-weight: bold;
+}
+
+.card {
+    padding: 1rem;
+}
+
+.btn-primary {
+    --bs-btn-color: black;
+    --bs-btn-bg: white;
+    --bs-btn-border-color: rgb(249, 143, 160);
+    --bs-btn-hover-border-color: rgb(234, 69, 96);
+    --bs-btn-hover-color: black;
+    --bs-btn-hover-bg: pink;
+    --bs-btn-disabled-color: rgb(85, 82, 82);
+    --bs-btn-disabled-bg: white;
+    --bs-btn-disabled-border-color: rgb(241, 177, 188);
+}
