@@ -10,8 +10,8 @@ import AllData from './alldata';
 export const UserContext = React.createContext(null);
 
 export default function Spa() {
-    const [usersList, setUsersList] = React.useState([{id: 1, name: 'itzel', email: 'lala@ls.com', password: 'aaa', balance: 100}]);
-    const [loginUser, setLoginUser] = React.useState({id: 1, name: 'itzel', email: 'lala@ls.com', password: 'aaa', balance: 100});
+    const [usersList, setUsersList] = React.useState([{id: 1, name: 'test user', email: 'lala@ls.com', password: 'aaa', balance: 100}]);
+    const [loginUser, setLoginUser] = React.useState({id: 1, name: 'test user', email: 'lala@ls.com'});
     return (
         <div>
             <BrowserRouter>

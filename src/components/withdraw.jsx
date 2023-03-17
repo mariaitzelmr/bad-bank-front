@@ -1,12 +1,13 @@
 import { Card, Container } from 'react-bootstrap';
 import { UserContext } from './SpaComponent';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MoneyMovement from './moneyMovement';
 import NotLoggedCard from './logOutCard';
 
 export default function Withdraw(){
     const { usersList, setUsersList, loginUser, setLoginUser } = React.useContext(UserContext);
-
+    const [balance, setBalance] = React.useState(0);
+    const [userIndex, setUserIndex] = React.useState(0);
     const [status, setStatus] = React.useState('');
 
     function updateBalance(withdrawMoney, setWithdrawMoney){
@@ -15,9 +16,7 @@ export default function Withdraw(){
             setStatus(error);
         } else {
             const usersListUpdated = [...usersList];
-            const userIndex = usersListUpdated.findIndex((user) => user.id === loginUser.id);
-            const newBalance = loginUser.balance - Number(withdrawMoney);
-            usersListUpdated[userIndex].balance = newBalance;
+            usersListUpdated[userIndex].balance -= Number(withdrawMoney);
             setUsersList(usersListUpdated);
             setLoginUser(usersListUpdated[userIndex]);
             setStatus('Success')
@@ -28,9 +27,18 @@ export default function Withdraw(){
         }, 3000);
     }
 
+    useEffect(() => {
+        if (!loginUser) {
+            return;
+        }
+        const index = usersList.findIndex((user) => user.id === loginUser.id);
+        setUserIndex(index);
+        setBalance(usersList[index].balance);
+    }, [usersList, loginUser]);
+
     function validateAmount(declaredAmount){
         const errorMessage = `Failed transaction, there is not enought money in your balance to withdraw this amount`;
-        return declaredAmount > loginUser.balance ? errorMessage : '';
+        return declaredAmount > usersList[userIndex].balance ? errorMessage : '';
     }
 
     return (
@@ -38,11 +46,10 @@ export default function Withdraw(){
             <h2>Withdraw</h2>
             {
                 loginUser ? (<Card>
-                <Card.Title> Balance {loginUser.balance} </Card.Title>
+                <Card.Title> Balance {balance} {status === 'Success' && <span className='Success'>{status}</span>} </Card.Title>
                 <Card.Text as="div">
-                    <h4>Withdraw amount</h4>
+                {status !== 'Success' && <span className='validation-error'>{status}</span>}
                     <MoneyMovement buttonName="Withdraw" moneyElements={updateBalance}/>
-                    {status}
                 </Card.Text>
             </Card>)
             :

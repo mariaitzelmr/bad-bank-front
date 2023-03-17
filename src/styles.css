@@ -22,11 +22,18 @@
     font-weight: bold;
 }
 
+.Success {
+    margin-left: 1rem;
+    color: rgba(36, 113, 15, 0.5);
+    font-weight: bold;
+}
+
 .card {
     padding: 1rem;
 }
 
 .btn-primary {
+    margin: 0.2rem;
     --bs-btn-color: black;
     --bs-btn-bg: white;
     --bs-btn-border-color: rgb(249, 143, 160);

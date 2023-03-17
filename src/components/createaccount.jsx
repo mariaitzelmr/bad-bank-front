@@ -10,6 +10,9 @@ export default function CreateAccount(){
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const { usersList, setUsersList } = React.useContext(UserContext);
+    let buttonDisabled = status.reduce((accu, currentStatus) => {
+        return accu || currentStatus;
+    }, false);
 
     function validateName(nameField){
         const errorMessage = validateEmptyFields(nameField);
@@ -66,9 +69,7 @@ export default function CreateAccount(){
                                 <input type="password" className="form-control" id="password" placeholder="Enter password"
                                 value={password} onChange={e => validatePassword(e.currentTarget.value)} /><br />
                                 
-                                <button type="submit" className="btn btn-primary" onClick={handleCreate} disabled={status.reduce((accu, currentStatus) => {
-            return accu || currentStatus;
-        }, false)}>
+                                <button type="submit" className="btn btn-primary" onClick={handleCreate} disabled={buttonDisabled}>
                                     Create Account
                                 </button>
                             </div>

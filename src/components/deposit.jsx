@@ -1,20 +1,19 @@
 import { Card, Container } from 'react-bootstrap';
 import { UserContext } from './SpaComponent';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MoneyMovement from './moneyMovement';
 import NotLoggedCard from './logOutCard';
 
 export default function Deposit(){
-    const { usersList, setUsersList, loginUser, setLoginUser } = React.useContext(UserContext);
+    const { usersList, setUsersList, loginUser } = React.useContext(UserContext);
     const [status, setStatus] = React.useState('');
+    const [balance, setBalance] = React.useState(0);
+    const [userIndex, setUserIndex] = React.useState(0);
 
     function updateBalance(withdrawMoney, setWithdrawMoney){    
         const usersListUpdated = [...usersList];
-        const userIndex = usersListUpdated.findIndex((user) => user.id === loginUser.id);
-        const newBalance = Number(withdrawMoney) + loginUser.balance;
-        usersListUpdated[userIndex].balance = newBalance;
+        usersListUpdated[userIndex].balance += Number(withdrawMoney);
         setUsersList(usersListUpdated);
-        setLoginUser(usersListUpdated[userIndex]);
         setStatus(['Success'])
         setWithdrawMoney(0);
         setTimeout(() => {
@@ -22,17 +21,24 @@ export default function Deposit(){
         }, 3000);
     }
 
+    useEffect(() => {
+        if (!loginUser) {
+            return;
+        }
+        const index = usersList.findIndex((user) => user.id === loginUser.id);
+        setUserIndex(index);
+        setBalance(usersList[index].balance);
+    }, [usersList, loginUser]);
+
     return (
         <Container>
             <h2>Deposit</h2>
             {
                 loginUser ?
             (<Card>
-                <Card.Title> Balance {loginUser.balance} </Card.Title>
+                <Card.Title> Balance {balance} <span className={status}>{status}</span></Card.Title>
                 <Card.Text as="div">
-                    <h4>Deposit amount</h4>
                     <MoneyMovement buttonName="Deposit" moneyElements={updateBalance}/>
-                    {status}
                 </Card.Text>
             </Card>)
             :
