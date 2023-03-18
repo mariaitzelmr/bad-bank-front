@@ -9,6 +9,7 @@ export default function Withdraw(){
     const [balance, setBalance] = React.useState(0);
     const [userIndex, setUserIndex] = React.useState(0);
     const [status, setStatus] = React.useState('');
+    const FAILED_TRANSACTION_MESSAGE = `Failed transaction, there is not enought money in your balance to withdraw this amount`
 
     function updateBalance(withdrawMoney, setWithdrawMoney){
         const error = validateAmount(withdrawMoney);
@@ -23,7 +24,7 @@ export default function Withdraw(){
         }
         setWithdrawMoney(0);
         setTimeout(() => {
-            setStatus(['']);
+            setStatus('');
         }, 3000);
     }
 
@@ -37,7 +38,7 @@ export default function Withdraw(){
     }, [usersList, loginUser]);
 
     function validateAmount(declaredAmount){
-        const errorMessage = `Failed transaction, there is not enought money in your balance to withdraw this amount`;
+        const errorMessage = FAILED_TRANSACTION_MESSAGE;
         return declaredAmount > usersList[userIndex].balance ? errorMessage : '';
     }
 
@@ -48,7 +49,7 @@ export default function Withdraw(){
                 loginUser ? (<Card>
                 <Card.Title> Balance {balance} {status === 'Success' && <span className='Success'>{status}</span>} </Card.Title>
                 <Card.Text as="div">
-                {status !== 'Success' && <span className='validation-error'>{status}</span>}
+                {status === FAILED_TRANSACTION_MESSAGE && <span className='validation-error'>{status}</span>}
                     <MoneyMovement buttonName="Withdraw" moneyElements={updateBalance}/>
                 </Card.Text>
             </Card>)

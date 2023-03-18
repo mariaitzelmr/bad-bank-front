@@ -11,5 +11,8 @@ export function validateEmailFormat(inputData){
 }
 
 export function validatePositiveNumber(inputData){
-    return inputData >= 0 ? '' : 'A positive number is required';
+    if (inputData === '0')
+        return 'A value bigger than 0 is required for this operation';
+        
+    return Number(inputData) > 0 ? '' : 'Only positive numbers are accepted in this operation';
 }

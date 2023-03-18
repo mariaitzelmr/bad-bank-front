@@ -19,7 +19,7 @@ export default function LoginComponent(){
 
     function validateUsername(){
         const userIndex = usersList.findIndex((userRow) => userRow.name === user);
-        const error = userIndex < 0 ? 'Usuario no registrado' : '';
+        const error = userIndex < 0 ? 'User not found' : '';
         setStatus([error, status[1]]);
         setTimeout(() => {
             setStatus(['', ''])
@@ -38,18 +38,25 @@ export default function LoginComponent(){
 
     return (
         <div className="row" style={{width: '50%'}}>
-            <div>
-                Username  <span className="validation-error">{status[0]}</span> <br/>
-                <input type="text" className="form-control" value={user} onChange={e => setUser(e.target.value)} /> <br/>
-            </div>
-            <div>
-                Password <span className="validation-error">{status[1]}</span> <br/>
-                <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} /> <br/>
-            </div>
-            <div className="d-flex justify-content-between">
-                <button type="submit" className='btn btn-primary' onClick={loginFunction} disabled={!user && !password}>Login</button>
-                { loginUser && <button className='btn btn-primary' onClick={() => setLoginUser(null)}>Logout</button> }
-            </div>
+            {
+                loginUser ? 
+                <button className='btn btn-primary' onClick={() => setLoginUser(null)}>Logout</button>
+                : 
+                <div>
+                    <div>
+                        Username  <span className="validation-error">{status[0]}</span> <br/>
+                        <input type="text" className="form-control" value={user} onChange={e => setUser(e.target.value)} /> <br/>
+                    </div>
+                   <div>
+                        Password <span className="validation-error">{status[1]}</span> <br/>
+                        <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} /> <br/>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <button type="submit" className='btn btn-primary' onClick={loginFunction} disabled={!user && !password}>Login</button>
+                    </div>
+                </div>
+                
+            }
         </div>
     );
 }
