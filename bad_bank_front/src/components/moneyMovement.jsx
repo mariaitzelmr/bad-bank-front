@@ -1,5 +1,5 @@
 import React from 'react';
-import { validatePositiveNumber, validateIsNumber, validateEmptyFields } from '../validations';
+import { validatePositiveNumber, validateEmptyFields } from '../validations';
 
 export default function MoneyMovement({ buttonName, moneyElements }){
     const [withdrawMoney, setWithdrawMoney] = React.useState(0);
